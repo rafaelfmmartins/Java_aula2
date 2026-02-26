@@ -1,37 +1,38 @@
 package br.com.fiapride.model;
-import br.com.fiapride.model.Passageiro;
+
 public class Passageiro {
-    public String nome;
-    public String cpf; // Novo Atributo
-    public double saldo;
+    private String nome;
+    private String cpf;
+    private double saldo;
 
     public Passageiro(String nome, String cpf) {
         this.nome = nome;
-        this.cpf = cpf; // Novo Atributo
+        this.cpf = cpf;
         this.saldo = 0.0;
     }
 
+    // MÉTODO 1: Recarregar (Altera o estado do saldo)
     public void adicionarSaldo(double valor) {
-        // Regra de negócio: O valor da recarga deve ser positivo
-        if (valor <= 0) {
-            System.out.println("Erro: O valor de recarga deve ser maior que zero.");
-            return; // Interrompe a execução do método
+        if (valor > 0) {
+            this.saldo += valor;
+            System.out.println("Sucesso: R$" + valor + " adicionados.");
+        } else {
+            System.out.println("Erro: Valor de recarga inválido.");
         }
-        this.saldo += valor;
-        System.out.println("Recarga realizada. Novo saldo: " + this.saldo);
     }
 
+    // MÉTODO 2: Pagar Viagem (Altera o estado do saldo com validação)
     public void pagarViagem(double custo) {
-        // Regra de negócio: O custo deve ser positivo e o saldo deve ser suficiente
-        if (custo <= 0) {
-            System.out.println("Erro: O custo da viagem é inválido.");
-            return;
+        if (custo > 0 && this.saldo >= custo) {
+            this.saldo -= custo;
+            System.out.println("Viagem autorizada. Saldo restante: R$" + this.saldo);
+        } else {
+            System.out.println("Erro: Saldo insuficiente (R$" + this.saldo + ") para o custo de R$" + custo);
         }
-        if (this.saldo < custo) {
-            System.out.println("Erro: Saldo insuficiente para realizar a viagem.");
-            return;
-        }
-        this.saldo -= custo;
-        System.out.println("Viagem paga. Saldo restante: " + this.saldo);
     }
+
+    // GETTERS (Necessários para a Main conseguir ler os dados agora que são private)
+    public String getNome() { return nome; }
+    public double getSaldo() { return saldo; }
+    public String getCpf() { return cpf; }
 }

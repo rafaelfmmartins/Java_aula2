@@ -1,31 +1,37 @@
 package br.com.fiapride.main;
 
-// Importamos a classe Passageiro para que o sistema a reconheça
 import br.com.fiapride.model.Passageiro;
 
 public class SistemaPrincipal {
 
     public static void main(String[] args) {
-        // INSTANCIAÇÃO
-        // O comando 'new' aloca memória para um novo objeto.
-        // Criando o primeiro passageiro (Objeto 1)
-        Passageiro passageiro1 = new Passageiro("Ana Silva", "222");
-        System.out.println("Regarga passageiro 1");
-        passageiro1.adicionarSaldo(50.0);
+        // 1. Criando o passageiro
+        Passageiro p1 = new Passageiro("Ana Silva", "123.456.789-00");
 
-        // Criando o segundo passageiro (Objeto 2)
-        Passageiro passageiro2 = new Passageiro("Carlos Souza", "333");
-        System.out.println("Regarga passageiro 2");
-        passageiro2.adicionarSaldo(12.5);
+        System.out.println("--- Bem-vindo ao FiapRide ---");
+        System.out.println("Passageiro: " + p1.getNome());
+        System.out.println("Saldo Inicial: R$ " + p1.getSaldo());
 
-        System.out.println("--- Sistema FiapRide ---");
-        System.out.println("Passageiro: " + passageiro1.nome + " | Saldo: R$ " + passageiro1.saldo + " | CPF: " + passageiro1.cpf);
-        System.out.println("Passageiro: " + passageiro2.nome + " | Saldo: R$ " + passageiro2.saldo + " | CPF: " + passageiro2.cpf);
-        
-        System.out.println("Pagando viagem do passageiro 1");
-        passageiro1.pagarViagem(20);
-        System.out.println("Pagando viagem do passageiro 2");
-        passageiro2.pagarViagem(20);
+        System.out.println("\n--- Testando Recarga ---");
+        // Teste Válido
+        p1.adicionarSaldo(50.0);
+        // Teste Inválido (Regra de Negócio: não deve aceitar negativo)
+        p1.adicionarSaldo(-10.0); 
 
+        System.out.println("\n--- Testando Viagens ---");
+        // Primeira viagem (Deve funcionar)
+        System.out.println("Tentando pagar viagem de R$ 5.00...");
+        p1.pagarViagem(5.00);
+
+        // Segunda viagem (Custo alto, deve cair no 'if' de saldo insuficiente)
+        System.out.println("Tentando pagar viagem de R$ 100.00...");
+        p1.pagarViagem(100.00);
+
+        // Terceira viagem (Custo inválido)
+        System.out.println("Tentando pagar viagem de R$ -2.00...");
+        p1.pagarViagem(-2.00);
+
+        System.out.println("\n--- Estado Final ---");
+        System.out.println("Saldo final de " + p1.getNome() + ": R$ " + p1.getSaldo());
     }
 }
